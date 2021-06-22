@@ -66,7 +66,7 @@ except:
     sys.exit()
 while quality != "1":
     print("\u001b[31mSorry temporary limited to HD quality only pls select quality='1' !\u001b[30m")
-    quality = input(f"Choose the quality > \n\t1:'HDP'\n\t2:'360P'\n\t3:'480P'\n\t4:'720P'\n\t5:'1080P'] \n\u001b[35m Enter the respective no for quality > ")
+    quality = input(f"Choose the quality > \n\t1:'HDP'\n\t2:'360P'\n\t3:'480P'\n\t4:'720P'\n\t5:'1080P'] \n\u001b[35m Enter the respective no for quality >\u001b[31m ")
 for i in range(int(f),int(l)+1):
     u=url+str(i)
     r=requests.get(u)
