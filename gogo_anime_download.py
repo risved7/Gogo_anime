@@ -36,10 +36,12 @@ def download(url,dest):
     return
 # ex = "https://www1.gogoanime.ai/boruto-naruto-next-generations-episode-1" [ episode 1-200 ]
 qualities = ['HDP','360P','480P','720P','1080P']
+q_rev = qualities[::-1]
 # u=input("Enter URL of first episode> " )
 # u=u.replace(" ","")
 # u="https://www1.gogoanime.ai/death-note-episode-1"
-u="https://www1.gogoanime.ai/naruto-shippuuden-dub-episode-1"
+# u="https://www1.gogoanime.ai/naruto-shippuuden-dub-episode-1"
+u="https://www1.gogoanime.ai/hige-wo-soru-soshite-joshikousei-wo-hirou-episode-1"
 # u="https://www1.gogoanime.ai/boruto-naruto-next-generations-episode-1"
 url=u[:-1]
 try:
@@ -54,8 +56,8 @@ try:
         # s=input("Shut Down when downloaded?(y/n) > ")
         f="1"
         l="30"
-        quality="3"
-        n="naruto_episode_"
+        quality="1"
+        n="joshikousei_"
         d="/home/sunbeam/Documents/rishi/Project/WebScraping_proj/death_note"
         s="n"
 
@@ -73,15 +75,19 @@ for i in range(int(f),int(l)+1):
             r1=requests.get(l)
             s1=BeautifulSoup(r1.text,'html.parser')
             l1=s1.find_all('a') #Download page array list with different quality
-            for q1 in qualities[::-1][qualities.index(qualities[int(quality) - 1]):]: #q1 = 480,360,HD
+            # for q1 in qualities[::-1][qualities.index(qualities[int(quality) - 1]):]: #q1 = 480,360,HD
+            end_ind = q_rev.index(qualities[int(quality)-1])
+            for q1 in q_rev[end_ind:]:  # q1 = 480,360,HD
                 flag=0
                 for l2 in l1[::-1]:
                     if q1 in l2.text:
                         des = d + '/' + n + str(i) + '.mp4'
                         print(f"Download : Episode[{i}] {des} at quality : {q1} \n\tLink : \u001b[34m{l2.get('href')}\u001b[30m")
                         flag = 1
+                        dwn_link = l2.get('href')
+                        if dwn_link[-4:] == ".mp4":   #Restriccted to HD only until now
+                            download(dwn_link, des)
                         break
-                        # download(l2.get('href'), des)
                     else:
                         continue
                 if flag:
