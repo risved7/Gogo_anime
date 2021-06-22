@@ -4,7 +4,7 @@ obj = SmartDL(url,'/home/sunbeam/Documents/rishi/Project/WebScraping_proj/naruto
 obj.start()
 
 import urllib
-url1 = "http://www.google.com/translate_a/t?client=t&sl=zh-CN&tl=en&q=%E7%94%B7%E5%AD%A9"
+url1 = "https://gogo-cdn.com/download.php?url=aHR0cHM6LyURASDGHUSRFSJGYfdsffsderFStewthsfSFtrfteAawehyfcghysfdsDGDYdgdsfsdfwstdgdsgtertsdf9jZG4xMC5jbG91ZDl4eC5jb20vdXNlcjEzNDIvMmFmYjcxMTZhZDM3MzRiNDY3ZTQ5YjIwNmViMzgwZWQvRVAuMi43MjBwLm1wND90b2tlbj11SmFubmxkT0lKazJZX0FtOXpPZl9BJmV4cGlyZXM9MTYyNDM3ODg0NyZpZD0xMDcyNDQ="
 # request = urllib.request.Request(url1, headers={'User-Agent': 'Mozilla/5.0'})
 # headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.86 Safari/537.36"}
 # hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36',

@@ -56,7 +56,7 @@ try:
         # s=input("Shut Down when downloaded?(y/n) > ")
         f="1"
         l="30"
-        quality="1"
+        quality="2"
         n="joshikousei_"
         d="/home/sunbeam/Documents/rishi/Project/WebScraping_proj/death_note"
         s="n"
@@ -64,6 +64,9 @@ try:
 except:
     print ("Wrong URL biro")
     sys.exit()
+while quality != "1":
+    print("\u001b[31mSorry temporary limited to HD quality only pls select quality='1' !\u001b[30m")
+    quality = input(f"Choose the quality > \n\t1:'HDP'\n\t2:'360P'\n\t3:'480P'\n\t4:'720P'\n\t5:'1080P'] \n\u001b[35m Enter the respective no for quality > ")
 for i in range(int(f),int(l)+1):
     u=url+str(i)
     r=requests.get(u)
