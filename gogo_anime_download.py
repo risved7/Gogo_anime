@@ -23,11 +23,10 @@ import requests
 from pySmartDL import SmartDL
 import sys
 import os
-import re
 from clint.textui import progress
 from bs4 import BeautifulSoup
 def download(url,dest):
-    obj=SmartDL(url, dest)
+    obj=SmartDL(url,dest,progress_bar=True)
     obj.start()
     if obj.isSuccessful():
         print(f"\tDownloaded file to : {obj.get_dest()}")
@@ -39,34 +38,48 @@ qualities = ['HDP','360P','480P','720P','1080P']
 q_rev = qualities[::-1]
 # u=input("Enter URL of first episode> " )
 # u=u.replace(" ","")
-# u="https://www1.gogoanime.ai/death-note-episode-1"
-# u="https://www1.gogoanime.ai/naruto-shippuuden-dub-episode-1"
-u="https://www1.gogoanime.ai/hige-wo-soru-soshite-joshikousei-wo-hirou-episode-1"
-# u="https://www1.gogoanime.ai/boruto-naruto-next-generations-episode-1"
+
+"""
+To download any anime series pass or give link for "1st episode" only link to "u" for else it will not work !
+EX --->
+u="https://www1.gogoanime.ai/death-note-episode-1"
+u="https://www1.gogoanime.ai/naruto-shippuuden-dub-episode-1"
+u="https://www1.gogoanime.ai/hige-wo-soru-soshite-joshikousei-wo-hirou-episode-1"   
+u="https://www1.gogoanime.ai/boruto-naruto-next-generations-episode-1" 
+"""
+u="https://www1.gogoanime.ai/naruto-shippuuden-dub-episode-1"
 url=u[:-1]
+
+def Input_from_user():
+    f=input("Enter episode to start with > ")
+    l=input("Enter episode to end with for all episode type 99999 > ")
+    quality = input(f"Choose the quality > \n\t1:'HDP'\n\t2:'360P'\n\t3:'480P'\n\t4:'720P'\n\t5:'1080P'] \n\u001b[35m Enter the respective no for quality > ")
+    print("\u001b[31mNote the entered quality will be as enterd or lower if not avilable at server!")
+    n=input("\u001b[30mEnter name to be saved as > ")
+    d=input("Enter full path to destination folder > ")
+    s=input("Shut Down when downloaded?(y/n) > ")
+    return f,l,quality,n,d,s
+
 try:
     rq=requests.get(url)
     if rq.status_code == 200:
-        # f=input("Enter episode to start with > ")
-        # l=input("Enter episode to end with > ")
-        # quality = input(f"Choose the quality > \n\t1:'HDP'\n\t2:'360P'\n\t3:'480P'\n\t4:'720P'\n\t5:'1080P'] \n\u001b[35m Enter the respective no for quality > ")
-        # print("\u001b[31mNote the entered quality will be as enterd or lower if not avilable at server!")
-        # n=input("\u001b[30mEnter name to be saved as > ")
-        # d=input("Enter full path to destination folder > ")
-        # s=input("Shut Down when downloaded?(y/n) > ")
-        f="1"
-        l="30"
-        quality="2"
-        n="joshikousei_"
-        d="/home/sunbeam/Documents/rishi/Project/WebScraping_proj/death_note"
-        s="n"
+        #Input Form User --->
+        # f,l,quality,n,d,s = Input_from_user()
+
+        # Manual Input --->
+        f="1"  #start of episode
+        l="30"  #end of episode, for all episode type 99999
+        quality="1" #Dont change  currently only HD quality supported
+        n="NarutoE"+"_" #name of file start with
+        d="/home/sunbeam/Documents/rishi/Project/WebScraping_proj/Gogo anime/Anime_Episode" #Folder location to store
+        s="n"  #shut down after downloading yes-"y" | no-"n"
 
 except:
     print ("Wrong URL biro")
     sys.exit()
 while quality != "1":
     print("\u001b[31mSorry temporary limited to HD quality only pls select quality='1' !\u001b[30m")
-    quality = input(f"Choose the quality > \n\t1:'HDP'\n\t2:'360P'\n\t3:'480P'\n\t4:'720P'\n\t5:'1080P'] \n\u001b[35m Enter the respective no for quality >\u001b[31m ")
+    quality = input(f"Choose the quality > \n\t1:'HDP'\n\t2:'360P'\n\t3:'480P'\n\t4:'720P'\n\t5:'1080P'] \n\u001b[35m Enter the respective no for quality > \u001b[30m")
 for i in range(int(f),int(l)+1):
     u=url+str(i)
     r=requests.get(u)
