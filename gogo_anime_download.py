@@ -1,6 +1,7 @@
 WHITE = "\n\u001b[37m"
 DARK = "\n\u001b[30m"
-THEME = int(input("\n\u001b[31mWhich Theme dark(1) or white>(0)>" ))
+# THEME = int(input("\n\u001b[31mWhich Theme dark(1) or white>(0)>" ))
+THEME = 1
 if THEME == 1:
     THEME = DARK
 else:
@@ -44,7 +45,7 @@ def download(url,dest):
 qualities = ['HDP','360P','480P','720P','1080P']
 q_rev = qualities[::-1]
 
-u=input(THEME+"Enter URL of first episode> " )
+# u=input(THEME+"Enter URL of first episode> " )
 # u=u.replace(" ","")
 
 """
@@ -55,7 +56,7 @@ u="https://www1.gogoanime.ai/naruto-shippuuden-dub-episode-1"
 u="https://www1.gogoanime.ai/hige-wo-soru-soshite-joshikousei-wo-hirou-episode-1"   
 u="https://www1.gogoanime.ai/boruto-naruto-next-generations-episode-1" 
 """
-#u="https://www1.gogoanime.ai/naruto-shippuuden-dub-episode-1"
+u="https://www1.gogoanime.ai/naruto-shippuuden-dub-episode-1"
 url=u[:u.rfind("-")+1]
 
 def Input_from_user():
@@ -81,13 +82,13 @@ try:
     rq=requests.get(url)
     if rq.status_code == 200:
         #Input Form User --->
-        f,l,quality,n,d,s = Input_from_user()
+        #f,l,quality,n,d,s = Input_from_user()
 
         # Manual Input --->
-	#f,l,quality,n,d,s = Manual_input()
+	    f,l,quality,n,d,s = Manual_input()
 
 except:
-    print ("Wrong URL biro ! :(")
+    print ("\u001b[31mWrong URL biro ! :(")
     sys.exit()
 while quality != "1":
     print("\u001b[31mSorry temporary limited to HD quality only pls select quality='1' !"+THEME)
@@ -102,8 +103,16 @@ for i in range(int(f),int(l)+1):
         if 'download' in l:
             r1=requests.get(l)
             s1=BeautifulSoup(r1.text,'html.parser')
+            try:
+                if s1.find("meta").attrs["name"] == 'captcha-bypass':
+                    #exit project
+                    print("\u001b[31mSorry Captcha appers !!! downloading failed !")
+                    sys.exit()
+            except:
+                pass
             l1=s1.find_all('a') #Download page array list with different quality
             # for q1 in qualities[::-1][qualities.index(qualities[int(quality) - 1]):]: #q1 = 480,360,HD
+
             end_ind = q_rev.index(qualities[int(quality)-1])
             for q1 in q_rev[end_ind:]:  # q1 = 480,360,HD
                 flag=0
