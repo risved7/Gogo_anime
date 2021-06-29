@@ -1,5 +1,11 @@
-
-print('''
+WHITE = "\n\u001b[37m"
+DARK = "\n\u001b[30m"
+THEME = int(input("\n\u001b[31mWhich Theme dark(1) or white>(0)>" ))
+if THEME == 1:
+    THEME = DARK
+else:
+    THEME = WHITE
+print(THEME+'''
   ___          _                     ______                          _             _             
  / _ \        (_)                    |  _  \                        | |           | |            
 / /_\ \ _ __   _  _ __ ___    ___    | | | |  ___  __      __ _ __  | |  ___    __| |  ___  _ __ 
@@ -25,6 +31,7 @@ import sys
 import os
 from clint.textui import progress
 from bs4 import BeautifulSoup
+
 def download(url,dest):
     obj=SmartDL(url,dest,progress_bar=True)
     obj.start()
@@ -36,7 +43,8 @@ def download(url,dest):
 # ex = "https://www1.gogoanime.ai/boruto-naruto-next-generations-episode-1" [ episode 1-200 ]
 qualities = ['HDP','360P','480P','720P','1080P']
 q_rev = qualities[::-1]
-# u=input("Enter URL of first episode> " )
+
+u=input(THEME+"Enter URL of first episode> " )
 # u=u.replace(" ","")
 
 """
@@ -47,39 +55,43 @@ u="https://www1.gogoanime.ai/naruto-shippuuden-dub-episode-1"
 u="https://www1.gogoanime.ai/hige-wo-soru-soshite-joshikousei-wo-hirou-episode-1"   
 u="https://www1.gogoanime.ai/boruto-naruto-next-generations-episode-1" 
 """
-u="https://www1.gogoanime.ai/naruto-shippuuden-dub-episode-1"
-url=u[:-1]
+#u="https://www1.gogoanime.ai/naruto-shippuuden-dub-episode-1"
+url=u[:u.rfind("-")+1]
 
 def Input_from_user():
     f=input("Enter episode to start with > ")
     l=input("Enter episode to end with for all episode type 99999 > ")
     quality = input(f"Choose the quality > \n\t1:'HDP'\n\t2:'360P'\n\t3:'480P'\n\t4:'720P'\n\t5:'1080P'] \n\u001b[35m Enter the respective no for quality > ")
     print("\u001b[31mNote the entered quality will be as enterd or lower if not avilable at server!")
-    n=input("\u001b[30mEnter name to be saved as > ")
+    n=input(THEME+"Enter name to be saved as > ")
     d=input("Enter full path to destination folder > ")
     s=input("Shut Down when downloaded?(y/n) > ")
     return f,l,quality,n,d,s
 
+def Manual_input():
+    f="1"  #start of episode
+    l="30"  #end of episode, for all episode type 99999
+    quality="1" #Dont change  currently only HD quality supported
+    n="NarutoE"+"_" #name of file start with
+    d="/home/sunbeam/Documents/rishi/Project/WebScraping_proj/Gogo anime/Anime_Episode" #Folder location to store
+    s="n"  #shut down after downloading yes-"y" | no-"n"    
+    return f,l,quality,n,d,s
+	
 try:
     rq=requests.get(url)
     if rq.status_code == 200:
         #Input Form User --->
-        # f,l,quality,n,d,s = Input_from_user()
+        f,l,quality,n,d,s = Input_from_user()
 
         # Manual Input --->
-        f="1"  #start of episode
-        l="30"  #end of episode, for all episode type 99999
-        quality="1" #Dont change  currently only HD quality supported
-        n="NarutoE"+"_" #name of file start with
-        d="/home/sunbeam/Documents/rishi/Project/WebScraping_proj/Gogo anime/Anime_Episode" #Folder location to store
-        s="n"  #shut down after downloading yes-"y" | no-"n"
+	#f,l,quality,n,d,s = Manual_input()
 
 except:
-    print ("Wrong URL biro")
+    print ("Wrong URL biro ! :(")
     sys.exit()
 while quality != "1":
-    print("\u001b[31mSorry temporary limited to HD quality only pls select quality='1' !\u001b[30m")
-    quality = input(f"Choose the quality > \n\t1:'HDP'\n\t2:'360P'\n\t3:'480P'\n\t4:'720P'\n\t5:'1080P'] \n\u001b[35m Enter the respective no for quality > \u001b[30m")
+    print("\u001b[31mSorry temporary limited to HD quality only pls select quality='1' !"+THEME)
+    quality = input(f"Choose the quality > \n\t1:'HDP'\n\t2:'360P'\n\t3:'480P'\n\t4:'720P'\n\t5:'1080P'] \n\u001b[35m Enter the respective no for quality > "+THEME)
 for i in range(int(f),int(l)+1):
     u=url+str(i)
     r=requests.get(u)
@@ -98,11 +110,12 @@ for i in range(int(f),int(l)+1):
                 for l2 in l1[::-1]:
                     if q1 in l2.text:
                         des = d + '/' + n + str(i) + '.mp4'
-                        print(f"Download : Episode[{i}] {des} at quality : {q1} \n\tLink : \u001b[34m{l2.get('href')}\u001b[30m")
+                        print(f"Download : Episode[{i}] {des} at quality : {q1} \n\tLink : \u001b[34m{l2.get('href')}"+THEME)
                         flag = 1
                         dwn_link = l2.get('href')
                         if dwn_link[-4:] == ".mp4":   #Restriccted to HD only until now
-                            download(dwn_link, des)
+                            #download(dwn_link, des)
+                            print("Downloaded")
                         break
                     else:
                         continue
